@@ -1,0 +1,7 @@
+## Title: tevents
+## Interface: 110002
+## Notes: Arena Events YEP
+## IconTexture: 234524
+
+teventsConfig.lua
+tevents.lua
