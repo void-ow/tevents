@@ -10,16 +10,12 @@ jobs:
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H-%M-%S')"
     - uses: actions/checkout@main
-    - name: Create a folder to zip
-      run: |
-        mkdir tevents
-        mv * tevents
     - name: Archive Release
       uses: thedoctor0/zip-release@0.7.5
       with:
         type: 'zip'
         filename: 'tevents.zip'
-        exclusions: '*.git* /*node_modules/* .editorconfig .github'
+        exclusions: '*.git* /*node_modules/* .editorconfig .github install.cmd'
     - name: Upload Release
       uses: ncipollo/release-action@v1.12.0
       with:
