@@ -10,6 +10,10 @@ jobs:
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H-%M-%S')"
     - uses: actions/checkout@main
+    - name: Create a folder to zip
+      run: |
+        mkdir tevents
+        mv * tevents
     - name: Archive Release
       uses: thedoctor0/zip-release@0.7.5
       with:
