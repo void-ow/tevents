@@ -12,8 +12,11 @@ local spellSelector = NS.spellSelector
 local castsSelector = NS.castsSelector
 local buffsSelector = NS.buffsSelector
 local constants = NS.constants
+local ttsVoicesConfig = NS.ttsVoices
 
 local TEventsMessageFrame = nil
+local highPriorityVoiceId
+local lowPriorityVoiceId
 
 -- Set up "Casts in Progress", a table that contains sound ids for casts of each unit. Should only care about tracked units.
 local castsInProgress = {}
@@ -86,9 +89,9 @@ local function playSoundNeeded(foundSpell, spellName, sourceGUID, spellId, custo
 	
 	local ttsName = foundSpell.ttsName or foundSpell.displayName or spellName
 		
-	local ttsVoice = 0
+	local ttsVoice = lowPriorityVoiceId
 	if foundSpell.ttsPriority then
-		ttsVoice = 1
+		ttsVoice = highPriorityVoiceId
 	end
 		
 	C_VoiceChat.SpeakText(ttsVoice, ttsName, 1, constants.ttsSpeed, constants.ttsVolume)
@@ -232,6 +235,34 @@ local function eventHandler(self, event, unit, _, spellId)
 	
 end
 
+local function setUpTtsVoices() 
+
+	local highPriorityVoiceName = ttsVoicesConfig[1]
+	local lowPriorityVoiceName = ttsVoicesConfig[2]
+	
+	local installedVoices = C_VoiceChat.GetTtsVoices()
+	
+	for k, installedVoice in pairs(installedVoices) do		
+		
+		if string.find(installedVoice.name:lower(), highPriorityVoiceName:lower()) then
+			highPriorityVoiceId = installedVoice.voiceID
+		end
+		
+		if string.find(installedVoice.name:lower(), lowPriorityVoiceName:lower()) then
+			lowPriorityVoiceId = installedVoice.voiceID
+		end
+	end
+	
+	if not highPriorityVoiceId then
+		print("TEvents: WARNING - Missing the TTS Voice with the name " .. highPriorityVoiceName .. "! Defaulting to the first available voice...")
+		highPriorityVoiceId = 0
+	end	
+	if not lowPriorityVoiceId then
+		print("TEvents: WARNING - Missing the TTS Voice with the name " .. lowPriorityVoiceName .. "! Defaulting to the first available voice...")
+		lowPriorityVoiceId = 0
+	end
+end
+
 -- Init Method, only called in arena or for testing
 local function initializeTEvents()
 
@@ -252,6 +283,8 @@ local function initializeTEvents()
 	TEventsMessageFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
 	
 	TEventsMessageFrame:SetScript("OnEvent",eventHandler)
+	
+	setUpTtsVoices();
 end
 
 local TEventsMainFrame = CreateFrame("Frame")

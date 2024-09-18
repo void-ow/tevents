@@ -32,6 +32,11 @@ local eventTypes = {
 	["summon"] = {r = 1.0, g = 0.0, b = 1.0}
 }
 
+local ttsVoices = {
+	[1] = "zira",
+	[2] = "david"
+}
+
 local function findUnit(sourceGUID)
 	
 	local arena1 = UnitGUID("arena1")
@@ -377,6 +382,7 @@ local buffSelector = {
 
 NS.trackedUnits = trackedUnits
 NS.eventTypes = eventTypes
+NS.ttsVoices = ttsVoices
 NS.spellSelector = spellSelector
 NS.castsSelector = castsSelector
 NS.buffsSelector = buffSelector
