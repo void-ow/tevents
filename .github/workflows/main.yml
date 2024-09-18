@@ -17,5 +17,5 @@ jobs:
       uses: ncipollo/release-action@v1.12.0
       with:
         artifacts: "release.zip"
-        tag: $(date +'v%Y-%m-%dT%H-%M-%S')
+        tag: 'v1.1'
         token: ${{ secrets.GITHUB_TOKEN }}
