@@ -89,7 +89,7 @@ local spellSelector = {
 	[403631] = {ttsPriority = "true"}, -- Breath of Eons
 	[357210] = {ttsPriority = "true", ttsName = "Breath of Eons"}, -- Deep Breath
 	-- Paladin --
-	[198034] = {ttsPriority = "true"}, -- Divine Hammer
+	[198034] = {ttsPriority = "true"}, -- Divine Hammer (nobody picks this)
 	-- Rogue --
 	[360194] = {ttsPriority = "true"}, -- Deathmark
 	[280719] = {ttsPriority = "true"}, -- Secret Technique
@@ -103,7 +103,7 @@ local spellSelector = {
 	-- Death Knight --
 	[275699] = {}, -- Apocalypse
 	[305392] = {}, -- Chill Streak
-	[210128] = {}, -- Reanimation
+	[210128] = {displayName = "Zombie Bomb"}, -- Reanimation (zombies that run at enemies)
 	[439843] = {}, -- Reaper's Mark - [NEW in TWW]
 	-- Demon Hunter --
 	[258860] = {}, -- Essence Break
@@ -117,13 +117,14 @@ local spellSelector = {
 	-- Hunter --
 	[321530] = {}, -- Bloodshed
 	[257044] = {}, -- Rapid Fire
-	[131894] = {displayName = "Crows"}, -- A Murder of Crows
 	[360966] = {}, -- Spearhead
+--	[131894] = {displayName = "Crows"}, -- A Murder of Crows
 	-- Mage --
 	[321507] = {}, -- Touch of the Magi
-	[153561] = {}, -- Meteor
+--	[153561] = {}, -- Meteor
+	[431176] = {displayName = "Bolt Ready"}, -- Frostfire Empowerment - [NEW in TWW]
 	-- Monk --
-	[392983] = {displayName = "Windlord"}, -- Strike of the Windlord
+--	[392983] = {displayName = "Windlord"}, -- Strike of the Windlord
 	-- Paladin --
 	[343527] = {}, -- Execution Sentence
 	[343721] = {}, -- Final Reckoning
@@ -142,11 +143,12 @@ local spellSelector = {
 	-- Warlock --
 	[267171] = {ttsName = "Lock Pet Spin"}, -- Demonic Strength
 	[387976] = {displayName = "Rift"}, -- Dimensional Rift
-	[417537] = {}, -- Oblivion
+	[417537] = {}, -- Oblivion (nobody takes this)
+	[434635] = {}, -- Ruination - [NEW IN TWW]
 	-- Warrior --
 	[167105] = {}, -- ColosSUS Smash
 	[262161] = {}, -- Warbreaker
-	[397364] = {displayName = "Warrior Roar"}, -- Thunderous Roar
+	[397364] = {displayName = "Bleed Roar"}, -- Thunderous Roar
 	
 	
 	--- ## Summons ## ---
@@ -154,11 +156,12 @@ local spellSelector = {
 	
 	-- Death Knight --
 	[63560] = {eventType = eventTypes["summon"], displayName = "Dark Transformation", ttsPriority = "true"}, -- Dark Transformation
-	[42650] = {eventType = eventTypes["summon"], displayName = "Army of the Dead", ttsPriority = "true"}, -- Army of the Dead
-	[455395] = {eventType = eventTypes["summon"], displayName = "Abomination", ttsPriority = "true"}, -- Summon Abomination
+--	[42650] = {eventType = eventTypes["summon"], displayName = "Army of the Dead", ttsPriority = "true"}, -- Army of the Dead
+--	[455395] = {eventType = eventTypes["summon"], displayName = "Abomination", ttsPriority = "true"}, -- Summon Abomination
 	-- Hunter --
 	[205691] = {eventType = eventTypes["summon"], displayName = "GIGA Basilisk of Hell", ttsPriority = "true"}, -- Dire Beast: Basilisk
 	-- Warlock --
+	[205180] = {eventType = eventTypes["summon"], displayName = "Darkglare", ttsPriority = "true"}, -- Summon Darkglare
 	[265187] = {eventType = eventTypes["summon"], displayName = "Tyrant", ttsPriority = "true"}, -- Summon Demonic Tyrant
 	[201996] = {eventType = eventTypes["summon"], displayName = "Observer", ttsPriority = "true"}, -- Call Observer
 	[1122] = {eventType = eventTypes["summon"], displayName = "Infernal", ttsPriority = "true"}, -- Summon Infernal
@@ -174,10 +177,10 @@ local spellSelector = {
 	[200166] = {eventType = eventTypes["buff"]}, -- Metamorphosis
 	-- Druid --
 	[194223] = {eventType = eventTypes["buff"]}, -- Celestial Alignment
-	[102560] = {eventType = eventTypes["buff"], displayName = "Incarnation: Boomkin"}, -- Incarnation: Chosen of Elune 
-	[390414] = {eventType = eventTypes["buff"], displayName = "Incarnation: Boomkin"}, -- Incarnation: Chosen of Elune 2: First Blood
+	[102560] = {eventType = eventTypes["buff"], displayName = "Incarnation"}, -- Incarnation: Chosen of Elune 
+	[390414] = {eventType = eventTypes["buff"], displayName = "Incarnation"}, -- Incarnation: Chosen of Elune 2: First Blood
 	[106951] = {eventType = eventTypes["buff"]}, -- Berserk
-	[102543] = {eventType = eventTypes["buff"], displayName = "Incarnation: Faeral"}, -- Incarnation: Avatar of Ashamane
+	[102543] = {eventType = eventTypes["buff"], displayName = "Incarnation"}, -- Incarnation: Avatar of Ashamane
 	-- Evoker --
 	[375087] = {eventType = eventTypes["buff"]}, -- Dragonrage
 	-- Hunter --
@@ -190,10 +193,10 @@ local spellSelector = {
 	[12472] = {eventType = eventTypes["buff"]}, -- Icy Veins
 	[198144] = {eventType = eventTypes["buff"]}, -- Ice Form
 	-- Monk --
-	[443028] = {eventType = eventTypes["buff"], displayName = "Serenity"}, -- Celestial Conduit
+	[443028] = {eventType = eventTypes["buff"], specId = 269, displayName = "Serenity"}, -- Celestial Conduit (for WW only)
 	[137639] = {eventType = eventTypes["buff"]}, -- Storm, Earth and Fire
 	-- Paladin --
-	[31884] = {eventType = eventTypes["buff"], specId = 70}, -- Avenging Wrath
+	[31884] = {eventType = eventTypes["buff"], specId = 70}, -- Avenging Wrath (for Ret only)
 	[231895] = {eventType = eventTypes["buff"]}, -- Crusade
 	-- Priest --
 	[228260] = {eventType = eventTypes["buff"], displayName = "Voidform"}, -- Void Eruption (Voidform)
@@ -245,7 +248,7 @@ local spellSelector = {
 	-- Mage --
 	[45438] = {hidden = true, customSound = "iceBlock.ogg"}, -- Ice Block
 	-- Monk --
-	-- [101643] = {hidden = true, customSound = "transcendence.ogg"}, -- Transcendence
+--	[101643] = {hidden = true, customSound = "transcendence.ogg"}, -- Transcendence
 	[388615] = {hidden = true, customSound = "revival.ogg"}, -- Restoral (Revival)
 	[115310] = {hidden = true, customSound = "revival.ogg"}, -- Revival (Restoral)
 	[122470] = {hidden = true, customSound = "touchOfKarma.ogg"}, -- Touch of Karma
@@ -271,7 +274,7 @@ local spellSelector = {
 	[409293] = {hidden = true, customSound = "burrow.ogg"}, -- Burrow
 	[204331] = {hidden = true, customSound = "counterstrikeTotem.ogg"}, -- Counterstrike Totem
 	[98008] = {hidden = true, customSound = "spiritLinkTotem.ogg"}, -- Spirit Link Totem
-	[207399] = {hidden = true, customSound = "ancestralProtectionTotem.ogg"}, -- Anscestral Protection Totem
+	[207399] = {hidden = true, customSound = "ancestralProtectionTotem.ogg"}, -- Ancestral Protection Totem
 	[204336] = {hidden = true, customSound = "groundingTotem.ogg"}, -- Grounding Totem
 	[8143] = {hidden = true, customSound = "tremorTotem.ogg"}, -- Tremor Totem
 	-- Warlock --
@@ -334,7 +337,7 @@ local castsSelector = {
 	[277792] = {hidden = true, customSound = "polymorph.ogg"}, -- Polymorph : Bee
 	[321395] = {hidden = true, customSound = "polymorph.ogg"}, -- Polymorph : Mawrat
 	[391622] = {hidden = true, customSound = "polymorph.ogg"}, -- Polymorph : Duck
-	[460392] = {hidden = true, customSound = "polymorph.ogg"}, -- Polymorph : Mosswool
+	[460392] = {hidden = true, customSound = "polymorph.ogg"}, -- Polymorph : Mosswool - [NEW IN TWW]
 	[383121] = {hidden = true, customSound = "polymorph.ogg"}, -- Mass Polymorph
 	-- Monk --
 	[198898] = {hidden = true, customSound = "songOfChiJi.ogg"}, -- Song of Chi-Ji
@@ -369,6 +372,7 @@ local buffSelector = {
 	[248519] = {hidden = true, customSound = "interlope.ogg"}, -- Interlope
 	[212704] = {hidden = true, customSound = "beastWithin.ogg"}, -- The Beast Within
 	[433832] = {eventType = eventTypes["buff"]}, -- Dream Burst - [NEW in TWW]
+	[442726] = {eventType = eventTypes["buff"]}, -- Malevolence - [NEW in TWW]
 }
 
 NS.trackedUnits = trackedUnits
