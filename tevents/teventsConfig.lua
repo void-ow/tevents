@@ -250,6 +250,7 @@ local spellSelector = {
 	[372048] = {hidden = true, customSound = "oppressingRoar.ogg"}, -- Oppresing Roar
 	-- Hunter --
 	[187650] = {hidden = true, customSound = "freezingTrap.ogg"}, -- Freezing Trap
+	[109248] = {hidden = true, customSound = "bindingShot.ogg"}, -- Binding Shot
 	-- Mage --
 	[45438] = {hidden = true, customSound = "iceBlock.ogg"}, -- Ice Block
 	-- Monk --
