@@ -254,12 +254,21 @@ local function setUpTtsVoices()
 	end
 	
 	if not highPriorityVoiceId then
-		print("TEvents: WARNING - Missing the TTS Voice with the name " .. highPriorityVoiceName .. "! Defaulting to the first available voice...")
-		highPriorityVoiceId = 0
+		if lowPriorityVoiceId then
+			highPriorityVoiceId = lowPriorityVoiceId
+		else
+			print("TEvents: WARNING - Missing the TTS Voice with the name " .. highPriorityVoiceName .. "! Defaulting to the first available voice...")
+			highPriorityVoiceId = 0
+		end
 	end	
+	
 	if not lowPriorityVoiceId then
-		print("TEvents: WARNING - Missing the TTS Voice with the name " .. lowPriorityVoiceName .. "! Defaulting to the first available voice...")
-		lowPriorityVoiceId = 0
+		if highPriorityVoiceId then
+			lowPriorityVoiceId = highPriorityVoiceId
+		else
+			print("TEvents: WARNING - Missing the TTS Voice with the name " .. lowPriorityVoiceName .. "! Defaulting to the first available voice...")
+			lowPriorityVoiceId = 0
+		end
 	end
 end
 
