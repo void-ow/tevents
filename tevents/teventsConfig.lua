@@ -139,7 +139,6 @@ local spellSelector = {
 	[211522] = {ttsName = "Psaifiend"}, -- Psyfiend
 	-- Rogue --
 	[385627] = {}, -- Kingsbane
-	[385408] = {}, -- Sepsis
 	[426591] = {ttsName = "Gore"}, -- Goremaw's Bite
 	[196937] = {}, -- Ghostly Strike
 	-- Shaman --
