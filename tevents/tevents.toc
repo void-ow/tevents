@@ -1,5 +1,5 @@
 ## Title: tevents
-## Interface: 110002
+## Interface: 110005
 ## Notes: Arena Events YEP
 ## IconTexture: 234524
 
