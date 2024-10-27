@@ -114,7 +114,7 @@ local function processUnitSpellEvent(self, sourceFlags, sourceGUID, spellId, spe
 	
 	if foundSpell.specId then
 		local specId = findSpecByGUID(sourceGUID)
-		if specId and foundSpell.specId ~= specId then
+		if not specId or not foundSpell.specId[specId] then
 			return
 		end
 	end
@@ -333,12 +333,15 @@ function TEvents.test()
     spellSelector[586] = {} -- Test Spells with Fade
     spellSelector[139] = {eventType = eventTypes["summon"], displayName = "Incarnation: Chosen of", ttsPriority = "true"} -- Test Spells + Custom Name with Renew
 	spellSelector[17] = {customSound = "aimedShot.ogg"} -- Test Spells + Custom Sound with Power Word: Shield
-    spellSelector[21562] = {ttsName = "changed name so tts can actually pronounce feral frenzy"} -- Test Spells + Custom TTS with Power Word: Fortitude
+    spellSelector[21562] = {eventType = eventTypes["buff"], ttsName = "changed name so tts can actually pronounce feral frenzy"} -- Test Spells + Custom TTS with Power Word: Fortitude
 	spellSelector[1706] = {hidden = true} -- Test Spells + Hidden message with Levitate
 	spellSelector[47540] = {hidden = true, gameSound = 89367} -- Test Hidden + Game Sound with Penance
 	
 	castsSelector[194509] = {customSound = "fear.ogg"} -- Test Casts with Power Word: Radiance
 	castsSelector[2061] = {hidden = true, customSound = "seduction.ogg"} -- Test Casts + Hidden Message with Flash Heal Cast
+	
+	-- Set the spec to 256 for spec checks
+	findSpecByGUID = function (input) return 256 end
 	
 	-- Play Test Sounds
 	-- Counter!

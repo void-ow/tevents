@@ -134,7 +134,7 @@ local spellSelector = {
 	[343527] = {}, -- Execution Sentence
 	[343721] = {}, -- Final Reckoning
 	[255937] = {}, -- Wake of Ashes
-	[375576] = {specId = 70}, -- Divine Toll
+	[375576] = {specId = {[70] = true}}, -- Divine Toll
 	-- Priest --
 	[211522] = {ttsName = "Psaifiend"}, -- Psyfiend
 	-- Rogue --
@@ -197,10 +197,10 @@ local spellSelector = {
 	[12472] = {eventType = eventTypes["buff"]}, -- Icy Veins
 	[198144] = {eventType = eventTypes["buff"]}, -- Ice Form
 	-- Monk --
-	[443028] = {eventType = eventTypes["buff"], specId = 269, displayName = "Serenity"}, -- Celestial Conduit (for WW only)
+	[443028] = {eventType = eventTypes["buff"], specId = {[269] = true}, displayName = "Serenity"}, -- Celestial Conduit (for WW only)
 	[137639] = {eventType = eventTypes["buff"]}, -- Storm, Earth and Fire
 	-- Paladin --
-	[31884] = {eventType = eventTypes["buff"], specId = 70}, -- Avenging Wrath (for Ret only)
+	[31884] = {eventType = eventTypes["buff"], specId = {[70] = true}}, -- Avenging Wrath (for Ret only)
 	[231895] = {eventType = eventTypes["buff"]}, -- Crusade
 	-- Priest --
 	[228260] = {eventType = eventTypes["buff"], displayName = "Voidform"}, -- Void Eruption (Voidform)
@@ -270,6 +270,7 @@ local spellSelector = {
 	[8122] = {hidden = true, customSound = "psychicScream.ogg"}, -- Psychic Scream
 	[108968] = {hidden = true, customSound = "voidShift.ogg"}, -- Void Shift
 	[316262] = {hidden = true, customSound = "thoughtsteal.ogg"}, -- Thoughtsteal
+	[32379] = {hidden = true, specId = {[256] = true, [257] = true}, customSound = "death.ogg"}, -- Shadow Word: Death - Healer only
 	-- Rogue --
 	[207736] = {hidden = true, customSound = "shadowyDuel.ogg"}, -- Shadowy Duel
 	[1856] = {hidden = true, customSound = "vanish.ogg"}, -- Vanish
@@ -296,6 +297,8 @@ local spellSelector = {
 	
 	--- ## Hidden + Game Sound ## ---
 	
+	-- Evoker --
+	[351338] = {hidden = true, gameSound = 3227}, -- Quell
 	-- Rogue --
 	[408] = {hidden = true, gameSound = 58160}, -- Kidney Shot
 	[1833] = {hidden = true, gameSound = 56698}, -- Cheap Shot
@@ -378,6 +381,7 @@ local buffSelector = {
 	[212704] = {hidden = true, customSound = "beastWithin.ogg"}, -- The Beast Within
 	[433832] = {eventType = eventTypes["buff"]}, -- Dream Burst - [NEW in TWW]
 	[442726] = {eventType = eventTypes["buff"]}, -- Malevolence - [NEW in TWW]
+	[408558] = {hidden = true, specId = {[256] = true, [257] = true}, customSound = "greaterFade.ogg"}, -- Phase Shift - Healer only
 }
 
 NS.trackedUnits = trackedUnits
