@@ -1,7 +1,9 @@
 ## Title: tevents
 ## Interface: 110005
 ## Notes: Arena Events YEP
-## IconTexture: 234524
+## IconTexture: 134332
+## SavedVariables: TEventsDB
 
 teventsConfig.lua
+teventsOptions.lua
 tevents.lua

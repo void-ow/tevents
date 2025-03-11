@@ -1,4 +1,4 @@
-local A, NS = ...
+local A, TEventsNamespace = ...
 
 local constants = {
 	["frameWidth"] = 200,
@@ -142,7 +142,7 @@ local spellSelector = {
 	[426591] = {ttsName = "Gore"}, -- Goremaw's Bite
 	[196937] = {}, -- Ghostly Strike
 	-- Shaman --
-	[204330] = {displayName = "Skyfury"}, -- Totem of Wrath
+	[208963] = {displayName = "Skyfury"}, -- Totem of Wrath
 	[460697] = {displayName = "Skyfury"}, -- Totem of Wrath
 	-- Warlock --
 	[267171] = {ttsName = "Lock Pet Spin"}, -- Demonic Strength
@@ -167,7 +167,6 @@ local spellSelector = {
 	-- Warlock --
 	[205180] = {eventType = eventTypes["summon"], displayName = "Darkglare", ttsPriority = "true"}, -- Summon Darkglare
 	[265187] = {eventType = eventTypes["summon"], displayName = "Tyrant", ttsPriority = "true"}, -- Summon Demonic Tyrant
-	[201996] = {eventType = eventTypes["summon"], displayName = "Observer", ttsPriority = "true"}, -- Call Observer
 	[1122] = {eventType = eventTypes["summon"], displayName = "Infernal", ttsPriority = "true"}, -- Summon Infernal
 	
 	--- ## Buffs ## ---
@@ -272,7 +271,6 @@ local spellSelector = {
 	[316262] = {hidden = true, customSound = "thoughtsteal.ogg"}, -- Thoughtsteal
 	[32379] = {hidden = true, specId = {[256] = true, [257] = true}, customSound = "death.ogg"}, -- Shadow Word: Death - Healer only
 	-- Rogue --
-	[207736] = {hidden = true, customSound = "shadowyDuel.ogg"}, -- Shadowy Duel
 	[1856] = {hidden = true, customSound = "vanish.ogg"}, -- Vanish
 	[212182] = {hidden = true, customSound = "smokeBomb.ogg"}, -- Smoke Bomb (Assassination & Outlaw)
 	[359053] = {hidden = true, customSound = "smokeBomb.ogg"}, -- Smoke Bomb (Sub)
@@ -291,8 +289,8 @@ local spellSelector = {
 	-- Warrior --
 	[18499] = {hidden = true, customSound = "berserkerRage.ogg"}, -- Berserker Rage
 	[23920] = {hidden = true, customSound = "spellReflection.ogg"}, -- Spell Reflection
-	[236320] = {hidden = true, customSound = "warBanner.ogg"}, -- War Banner
 	[384100] = {hidden = true, customSound = "berserkerShout.ogg"}, -- Berserker Shout
+	[1219201] = {hidden = true, customSound = "warBanner.ogg"}, -- Berserker Roar (pseudo war banner)
 	[199261] = {hidden = true}, -- Death Wish
 	
 	--- ## Hidden + Game Sound ## ---
@@ -384,11 +382,11 @@ local buffSelector = {
 	[408558] = {hidden = true, specId = {[256] = true, [257] = true}, customSound = "greaterFade.ogg"}, -- Phase Shift - Healer only
 }
 
-NS.trackedUnits = trackedUnits
-NS.eventTypes = eventTypes
-NS.ttsVoices = ttsVoices
-NS.spellSelector = spellSelector
-NS.castsSelector = castsSelector
-NS.buffsSelector = buffSelector
-NS.constants = constants
-NS.additionalTracking = additionalTracking
+TEventsNamespace.trackedUnits = trackedUnits
+TEventsNamespace.eventTypes = eventTypes
+TEventsNamespace.ttsVoices = ttsVoices
+TEventsNamespace.spellSelector = spellSelector
+TEventsNamespace.castsSelector = castsSelector
+TEventsNamespace.buffsSelector = buffSelector
+TEventsNamespace.constants = constants
+TEventsNamespace.additionalTracking = additionalTracking

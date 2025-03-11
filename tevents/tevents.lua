@@ -1,18 +1,20 @@
--- Set up global entrypoint for testing
-TEvents = {}
 
 -- Set up namespace to grab data from config
-local A, NS = ...
+local A, TEventsNamespace = ...
 
 -- Get the spell database from Config
-local trackedUnits = NS.trackedUnits
-local additionalTracking = NS.additionalTracking
-local eventTypes = NS.eventTypes
-local spellSelector = NS.spellSelector
-local castsSelector = NS.castsSelector
-local buffsSelector = NS.buffsSelector
-local constants = NS.constants
-local ttsVoicesConfig = NS.ttsVoices
+local trackedUnits = TEventsNamespace.trackedUnits
+local additionalTracking = TEventsNamespace.additionalTracking
+local eventTypes = TEventsNamespace.eventTypes
+local spellSelector = TEventsNamespace.spellSelector
+local castsSelector = TEventsNamespace.castsSelector
+local buffsSelector = TEventsNamespace.buffsSelector
+local constants = TEventsNamespace.constants
+local ttsVoicesConfig = TEventsNamespace.ttsVoices
+local defaultOptions = TEventsNamespace.defaultOptions
+
+-- Get the global functions for addon
+local initializeOptions = TEventsNamespace.initializeOptions
 
 local TEventsMessageFrame = nil
 local highPriorityVoiceId
@@ -133,7 +135,9 @@ local function processUnitSpellEvent(self, sourceFlags, sourceGUID, spellId, spe
 	local eventType = foundSpell.eventType or eventTypes["warning"]
 	local name = foundSpell.displayName or spellName
 	
-	self:AddMessage("|T"..icon..":"..constants.iconSize.."|t "..name, eventType.r, eventType.g, eventType.b);
+	if TEventsDB.printEventName then
+		self:AddMessage("|T"..icon..":"..constants.iconSize.."|t "..name, eventType.r, eventType.g, eventType.b);
+	end
 end
 
 -- Default way to play a provided sound
@@ -296,33 +300,54 @@ local function initializeTEvents()
 	setUpTtsVoices();
 end
 
-local TEventsMainFrame = CreateFrame("Frame")
+TEventsMainFrame = CreateFrame("Frame")
 TEventsMainFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+TEventsMainFrame:RegisterEvent("ADDON_LOADED")
 
-local function eventHandlerMain(self,event)
+local function setupDefaultOptions()
 	
-	local _,instanceType = GetInstanceInfo();
-	
-	if not instanceType then
-		return
+	TEventsDB = TEventsDB or {}
+	for key, value in pairs(defaultOptions) do
+		if TEventsDB[key] == nil then
+			TEventsDB[key] = value
+		end
+	end
+end
+
+local function eventHandlerMain(self, event, addonName)
+
+	if event == "ADDON_LOADED" then
+		if addonName == "tevents" then
+			setupDefaultOptions()
+			initializeOptions()
+		end
+		self:UnregisterEvent(event)
 	end
 	
-	if TEventsMessageFrame then
-		TEventsMessageFrame:UnregisterAllEvents()
-		TEventsMessageFrame = nil
-	end
-	
-	if instanceType ~= "arena" then
-		return
-	end
+	if event == "PLAYER_ENTERING_WORLD" then
+		local _,instanceType = GetInstanceInfo();
 		
-	initializeTEvents()
+		if not instanceType then
+			return
+		end
+		
+		if TEventsMessageFrame then
+			TEventsMessageFrame:UnregisterAllEvents()
+			TEventsMessageFrame = nil
+		end
+		
+		if instanceType ~= "arena" then
+			return
+		end
+			
+		initializeTEvents()
+	end
 	
 end
 
 TEventsMainFrame:SetScript("OnEvent",eventHandlerMain)
 
-function TEvents.test()
+local function testEvents()
 	initializeTEvents()
 	
 	-- Add Player/Allies to tracked units
@@ -347,3 +372,5 @@ function TEvents.test()
 	-- Counter!
 	defaultSoundPlayback(constants.counterSoundPath)
 end
+
+TEventsNamespace.testEvents = testEvents
