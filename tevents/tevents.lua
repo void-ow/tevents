@@ -96,7 +96,7 @@ local function playSoundNeeded(foundSpell, spellName, sourceGUID, spellId, custo
 		ttsVoice = highPriorityVoiceId
 	end
 		
-	C_VoiceChat.SpeakText(ttsVoice, ttsName, 1, constants.ttsSpeed, constants.ttsVolume)
+	C_VoiceChat.SpeakText(ttsVoice, ttsName, 1, TEventsDB["ttsSpeed"], TEventsDB["ttsVolume"])
 	
 end
 

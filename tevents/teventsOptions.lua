@@ -2,6 +2,8 @@ local A, TEventsNamespace = ...
 
 local defaultOptions = {
 	printEventName = true,
+	ttsVolume = 10,
+	ttsSpeed = 4.9,
 	--someNewOption = "banana",
 }
 
@@ -60,6 +62,67 @@ local function createEditbox(option, label, parent, updateFunction)
 	return editBox
 end
 
+local function modulateFunction(option, modulation, minimum, maximum)
+	local value = TEventsDB[option]
+	value = value + modulation
+	
+	if value < minimum then
+		value = minimum
+	end
+	
+	if value > maximum then
+		value = maximum
+	end
+	
+	value = tonumber(string.format("%.1f", value))
+	
+	TEventsDB[option] = value
+	EventRegistry:TriggerEvent("TEvents.ConfigUpdated")
+end
+
+local function createModulateButton(option, label, parent, modulation, minimum, maximum)
+	local button = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
+	button.Text:SetText(label)
+	button:SetWidth(40)
+	
+	local function UpdateOption()
+		modulateFunction(option, modulation, minimum, maximum)
+	end
+	
+	button:HookScript("OnClick", function(_, btn, down)
+		UpdateOption()
+	end)
+
+	return button
+end
+
+local function createSimpleSlider(option, label, parent, modulation, minimum, maximum, prevFrame)
+	
+	local textFrame = CreateFrame("Frame", nil, parent)
+	textFrame:SetWidth(50) 
+	textFrame:SetHeight(20) 
+	textFrame:SetAlpha(1);
+	textFrame.text = textFrame:CreateFontString(nil,"ARTWORK") 
+	textFrame.text:SetFont("Fonts\\ARIALN.ttf", 13, "OUTLINE")
+	textFrame.text:SetPoint("CENTER",0,0)
+	textFrame.text:SetText(label .. ": " .. TEventsDB[option])
+	
+	EventRegistry:RegisterCallback("TEvents.ConfigUpdated", function()
+		textFrame.text:SetText(label .. ": " .. TEventsDB[option])
+	end, cb)
+	
+	textFrame:SetPoint("TOPLEFT", prevFrame, 80, -40)
+	
+	local decrease = createModulateButton(option, -modulation, parent, -modulation, minimum, maximum)
+	decrease:SetPoint("TOPLEFT", prevFrame, 0, -40)
+	
+	local increase = createModulateButton(option, "+" .. modulation, parent, modulation, minimum, maximum)
+	increase:SetPoint("TOPLEFT", prevFrame, 170, -40)
+	
+	return decrease
+end
+
+
 local function initializeOptions()
 	local mainPanel = CreateFrame("Frame")
 	mainPanel.name = "TEvents"
@@ -85,6 +148,9 @@ local function initializeOptions()
 		testButton:Hide()
 		stopTestingButton:Show()
 	end)
+	
+	local ttsVolumeSlider = createSimpleSlider("ttsVolume", "TTS Volume", mainPanel, 5, 5, 100, testButton)
+	local ttsSpeedSlider = createSimpleSlider("ttsSpeed", "TTS Speed", mainPanel, 0.1, -10, 10, ttsVolumeSlider)
 	
 	registerCanvas(mainPanel)
 end
