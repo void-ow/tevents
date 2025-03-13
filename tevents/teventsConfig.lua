@@ -221,7 +221,7 @@ local spellSelector = {
 	--- ## Hidden ## --- (but sounds still play)
 	
 	-- # Casts & Actions # --	
-	--[414664] = {hidden = true, ttsName = "Mass Invis"} -- Mass Invisibility
+	[198158] = {hidden = true, ttsName = "Mass Invis"}, -- Mass Invisibility
 	--[108285] = {hidden = true, customSound = "totemicRecall.ogg"}, -- Totemic Recall
 	--[198838] = {hidden = true, customSound = "earthenWallTotem.ogg"}, -- Earthen Wall Totem
 	-- PvP Trinkets --
