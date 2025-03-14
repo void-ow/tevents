@@ -129,7 +129,7 @@ local spellSelector = {
 --	[153561] = {}, -- Meteor
 	[431176] = {displayName = "Bolt Ready"}, -- Frostfire Empowerment - [NEW in TWW]
 	-- Monk --
---	[392983] = {displayName = "Windlord"}, -- Strike of the Windlord
+	[392983] = {displayName = "Windlord"}, -- Strike of the Windlord
 	-- Paladin --
 	[343527] = {}, -- Execution Sentence
 	[343721] = {}, -- Final Reckoning
@@ -152,6 +152,7 @@ local spellSelector = {
 	-- Warrior --
 	[167105] = {}, -- ColosSUS Smash
 	[262161] = {}, -- Warbreaker
+	[384318] = {displayName = "Bleed Roar"}, -- Thunderous Roar
 	[397364] = {displayName = "Bleed Roar"}, -- Thunderous Roar
 	
 	
