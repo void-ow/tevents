@@ -280,7 +280,7 @@ end
 local function initializeTEvents()
 
 	-- https://github.com/Gethe/wow-ui-source/blob/live/Interface/SharedXML/ScrollingMessageFrame.lua#L289
-	--C_VoiceChat.SpeakRemoteTextSample("text")
+	-- C_VoiceChat.SpeakRemoteTextSample("text")
 	
 	TEventsMessageFrame = CreateFrame("ScrollingMessageFrame")
 	TEventsMessageFrame:SetSize(constants.frameWidth, constants.frameHeight)

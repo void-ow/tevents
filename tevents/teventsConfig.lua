@@ -94,7 +94,7 @@ local spellSelector = {
 	[403631] = {ttsPriority = "true"}, -- Breath of Eons
 	[357210] = {ttsPriority = "true", ttsName = "Breath of Eons"}, -- Deep Breath
 	-- Paladin --
-	[198034] = {ttsPriority = "true"}, -- Divine Hammer (nobody picks this)
+	[343721] = {ttsPriority = "true"}, -- Final Reckoning
 	-- Rogue --
 	[360194] = {ttsPriority = "true"}, -- Deathmark
 	[280719] = {ttsPriority = "true"}, -- Secret Technique
@@ -114,7 +114,7 @@ local spellSelector = {
 	[258860] = {}, -- Essence Break
 	[370965] = {}, -- The Hunt
 	[390163] = {}, -- Sigil of Spite
-	[442294] = {}, -- Reaver's Glaive - [NEW in TWW]
+	-- [442294] = {}, -- Reaver's Glaive - [NEW in TWW]
 	-- Druid --
 	[274837] = {ttsName = "Faeral Frenzy"}, -- Feral Frenzy
 	-- Evoker --
@@ -123,16 +123,16 @@ local spellSelector = {
 	[321530] = {}, -- Bloodshed
 	[257044] = {}, -- Rapid Fire
 	[360966] = {}, -- Spearhead
---	[131894] = {displayName = "Crows"}, -- A Murder of Crows
+	-- [131894] = {displayName = "Crows"}, -- A Murder of Crows
 	-- Mage --
 	[321507] = {}, -- Touch of the Magi
---	[153561] = {}, -- Meteor
+	-- [153561] = {}, -- Meteor
 	[431176] = {displayName = "Bolt Ready"}, -- Frostfire Empowerment - [NEW in TWW]
 	-- Monk --
-	[392983] = {displayName = "Windlord"}, -- Strike of the Windlord
+	-- [392983] = {displayName = "Windlord"}, -- Strike of the Windlord
 	-- Paladin --
 	[343527] = {}, -- Execution Sentence
-	[343721] = {}, -- Final Reckoning
+	-- [198034] = {ttsPriority = "true"}, -- Divine Hammer (nobody picks this)
 	[255937] = {}, -- Wake of Ashes
 	[375576] = {specId = {[70] = true}}, -- Divine Toll
 	-- Priest --
@@ -162,7 +162,7 @@ local spellSelector = {
 	-- Death Knight --
 	[63560] = {eventType = eventTypes["summon"], displayName = "Dark Transformation", ttsPriority = "true"}, -- Dark Transformation
 --	[42650] = {eventType = eventTypes["summon"], displayName = "Army of the Dead", ttsPriority = "true"}, -- Army of the Dead
---	[455395] = {eventType = eventTypes["summon"], displayName = "Abomination", ttsPriority = "true"}, -- Summon Abomination
+--	[455395] = {eventType = eventTypes["summon"], displayName = "Abomination", ttsPriority = "true"}, -- Raise Abomination
 	-- Hunter --
 	[205691] = {eventType = eventTypes["summon"], displayName = "GIGA Basilisk of Hell", ttsPriority = "true"}, -- Dire Beast: Basilisk
 	-- Warlock --
@@ -246,7 +246,7 @@ local spellSelector = {
 	[29166] = {hidden = true, customSound = "innervate.ogg"}, -- Innervate
 	-- Evoker --
 	[374251] = {hidden = true, customSound = "cauterizingFlame.ogg"}, -- Cauterizing Flame
-	[372048] = {hidden = true, customSound = "oppressingRoar.ogg"}, -- Oppresing Roar
+	[372048] = {hidden = true, customSound = "oppressingRoar.ogg"}, -- Oppressing Roar
 	-- Hunter --
 	[187650] = {hidden = true, customSound = "freezingTrap.ogg"}, -- Freezing Trap
 	[109248] = {hidden = true, customSound = "bindingShot.ogg"}, -- Binding Shot
