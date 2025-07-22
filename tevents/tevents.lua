@@ -20,8 +20,10 @@ local TEventsMessageFrame = nil
 local highPriorityVoiceId
 local lowPriorityVoiceId
 
--- Set up "Casts in Progress", a table that contains sound ids for casts of each unit. Should only care about tracked units.
+-- Set up "Casts in Progress", a table that contains spell ids for casts of each unit. Should only care about tracked units.
 local castsInProgress = {}
+-- Set up "Event Time", a table that contains spell ids for every event (thats not a cast) of each unit. Needed to do a de-spammifier.
+local eventTime = {}
 
 local function checkIfTracked(flags)
 	for k,_ in pairs(trackedUnits) do
@@ -75,7 +77,7 @@ local function findSpecByGUID(sourceGUID)
 	return specId
 end
 
-local function playSoundNeeded(foundSpell, spellName, sourceGUID, spellId, customSoundFunction) 
+local function playSoundIfNeeded(foundSpell, spellName, sourceGUID, spellId, customSoundFunction) 
 	
 	local customSound = foundSpell.customSound
 	if customSound then
@@ -100,8 +102,28 @@ local function playSoundNeeded(foundSpell, spellName, sourceGUID, spellId, custo
 	
 end
 
+local function isSpam(sourceGUID, timestamp, spellId)
+
+	local lastEventTime = eventTime[sourceGUID] and eventTime[sourceGUID][spellId]
+
+	if lastEventTime and (timestamp - lastEventTime < TEventsDB["spamThresholdSeconds"]) then
+		-- Dont need to add the event to the event tracker, since otherwise spam filter will potentially be infinitely larger in time
+		-- so we keep the time the event was actually fired
+		return true
+	end
+	
+	-- The event is not a spam, handle adding the event to the event tracking, with nil checks
+	if not eventTime[sourceGUID] then
+		eventTime[sourceGUID] = {}
+	end
+	
+	eventTime[sourceGUID][spellId] = timestamp
+	
+	return false
+end
+
 -- Main processing logic for spell events and cast events    
-local function processUnitSpellEvent(self, sourceFlags, sourceGUID, spellId, spellArray, customSoundFunction)
+local function processUnitSpellEvent(self, timestamp, sourceFlags, sourceGUID, spellId, spellArray, customSoundFunction, isSpamProtected)
 	
 	local foundSpell = findSpell(sourceFlags, spellId, spellArray)
 	
@@ -121,12 +143,16 @@ local function processUnitSpellEvent(self, sourceFlags, sourceGUID, spellId, spe
 		end
 	end
 	
+	if isSpamProtected and isSpam(sourceGUID, timestamp, spellId) then
+		return
+	end
+	
 	local spellInfo = C_Spell.GetSpellInfo(spellId)
 	
 	local spellName = spellInfo.name
 	local icon = spellInfo.iconID
 	
-	playSoundNeeded(foundSpell, spellName, sourceGUID, spellId, customSoundFunction)
+	playSoundIfNeeded(foundSpell, spellName, sourceGUID, spellId, customSoundFunction)
 	
 	if foundSpell.hidden then
 		return
@@ -153,16 +179,17 @@ local function castsSoundPlayback(sound, sourceGUID, spellId)
 	castsInProgress[sourceGUID][spellId] = soundHandle
 end
 
-local function handleSpellCastSuccess(self, sourceFlags, sourceGUID, spellId)
-	processUnitSpellEvent(self, sourceFlags, sourceGUID, spellId, spellSelector, defaultSoundPlayback)
+local function handleSpellCastSuccess(self, timestamp, sourceFlags, sourceGUID, spellId)
+	processUnitSpellEvent(self, timestamp, sourceFlags, sourceGUID, spellId, spellSelector, defaultSoundPlayback, true)
 end
 
-local function handleSpellCastStart(self, sourceFlags, sourceGUID, spellId)
-	processUnitSpellEvent(self, sourceFlags, sourceGUID, spellId, castsSelector, castsSoundPlayback)
+local function handleSpellCastStart(self, timestamp, sourceFlags, sourceGUID, spellId)
+	-- Not spam protected since people be faking
+	processUnitSpellEvent(self, timestamp, sourceFlags, sourceGUID, spellId, castsSelector, castsSoundPlayback, false)
 end
 
-local function handleSpellBuffApply(self, sourceFlags, sourceGUID, spellId)
-	processUnitSpellEvent(self, sourceFlags, sourceGUID, spellId, buffsSelector, defaultSoundPlayback)
+local function handleSpellBuffApply(self, timestamp, sourceFlags, sourceGUID, spellId)
+	processUnitSpellEvent(self, timestamp, sourceFlags, sourceGUID, spellId, buffsSelector, defaultSoundPlayback, true)
 end
 
 -- Handle stopping a cast and stopping an associated sound play
@@ -205,23 +232,23 @@ local function eventHandler(self, event, unit, _, spellId)
 	end
 	
 	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-		local _, subEvent, _, sourceGUID, _, sourceFlags, _, _, _, destFlags,_ ,_ = CombatLogGetCurrentEventInfo()
+		local timestamp, subEvent, _, sourceGUID, _, sourceFlags, _, _, _, destFlags,_ ,_ = CombatLogGetCurrentEventInfo()
 			
 		if subEvent == "SPELL_AURA_APPLIED" then
 			spellId = select(12, CombatLogGetCurrentEventInfo())
-			handleSpellBuffApply(self, sourceFlags, sourceGUID, spellId)
+			handleSpellBuffApply(self, timestamp, sourceFlags, sourceGUID, spellId)
 			return
 		end
 		
 		if subEvent == "SPELL_CAST_START" then
 			spellId = select(12, CombatLogGetCurrentEventInfo())
-			handleSpellCastStart(self, sourceFlags, sourceGUID, spellId)
+			handleSpellCastStart(self, timestamp, sourceFlags, sourceGUID, spellId)
 			return
 		end
 		
 		if subEvent == "SPELL_CAST_SUCCESS" then
 			spellId = select(12, CombatLogGetCurrentEventInfo())
-			handleSpellCastSuccess(self, sourceFlags, sourceGUID, spellId)
+			handleSpellCastSuccess(self, timestamp, sourceFlags, sourceGUID, spellId)
 			return
 		end
 		
@@ -282,7 +309,11 @@ local function initializeTEvents()
 	-- https://github.com/Gethe/wow-ui-source/blob/live/Interface/SharedXML/ScrollingMessageFrame.lua#L289
 	-- C_VoiceChat.SpeakRemoteTextSample("text")
 	
-	TEventsMessageFrame = CreateFrame("ScrollingMessageFrame")
+	-- Reset the global variables to save from potential memory leaks. Is there a garbage collection call in lua?
+	castsInProgress = {}
+	eventTime = {}
+	
+	TEventsMessageFrame = CreateFrame("ScrollingMessageFrame", "TEventsMessageFrame")
 	TEventsMessageFrame:SetSize(constants.frameWidth, constants.frameHeight)
 	TEventsMessageFrame:SetPoint("BOTTOM", "UIParent", "CENTER", 0, constants.frameOffsetY)
 	TEventsMessageFrame:SetInsertMode("BOTTOM"); -- start from bottom

@@ -9,8 +9,6 @@ local constants = {
 	["timeVisible"] = 3.5,
 	["fadeDuration"] = 0.5,
 	["filePath"] = "Interface\\AddOns\\tevents\\sounds\\",
-	["ttsSpeed"] = 4.9,
-	["ttsVolume"] = 10,
 	["spellCancelSound"] = 903,
 	["counterSoundPath"] = "util\\counter.ogg",
 	["soundChannel"] = "Master"
@@ -346,6 +344,7 @@ local castsSelector = {
 	[391622] = {hidden = true, customSound = "polymorph.ogg"}, -- Polymorph : Duck
 	[460392] = {hidden = true, customSound = "polymorph.ogg"}, -- Polymorph : Mosswool - [NEW IN TWW]
 	[383121] = {hidden = true, customSound = "polymorph.ogg"}, -- Mass Polymorph
+	[352278] = {hidden = true, customSound = "icewall.ogg"}, -- Ice Wall [FUCK THIS SPELL]
 	-- Monk --
 	[198898] = {hidden = true, customSound = "songOfChiJi.ogg"}, -- Song of Chi-Ji
 	-- Paladin --

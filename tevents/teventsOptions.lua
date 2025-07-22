@@ -4,6 +4,7 @@ local defaultOptions = {
 	printEventName = true,
 	ttsVolume = 10,
 	ttsSpeed = 4.9,
+	spamThresholdSeconds = 2,
 	--someNewOption = "banana",
 }
 
@@ -151,6 +152,7 @@ local function initializeOptions()
 	
 	local ttsVolumeSlider = createSimpleSlider("ttsVolume", "TTS Volume", mainPanel, 5, 5, 100, testButton)
 	local ttsSpeedSlider = createSimpleSlider("ttsSpeed", "TTS Speed", mainPanel, 0.1, -10, 10, ttsVolumeSlider)
+	local spamThresholdSlider = createSimpleSlider("spamThresholdSeconds", "Spam Threshold", mainPanel, 0.1, 0, 5, ttsSpeedSlider)
 	
 	registerCanvas(mainPanel)
 end
